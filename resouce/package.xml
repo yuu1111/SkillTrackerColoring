@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Meta>
+  <title>SkillTrackerColoring Mod</title>
+  <id>yuu_skilltrackercoloring</id>
+  <author>yuu_111</author>
+  <builtin>false</builtin>
+  <loadPriority>100</loadPriority>
+  <version>1.0.0</version>
+  <description>
+    スキルトラッカーにトラックされている技能および主能力を、それぞれ対応する主能力に応じて色付けするModです
+    色は以下のようにしています
+    筋力 - 赤
+    耐久 - 茶色
+    器用 - 緑
+    感覚 - 水色
+    学習 - 青
+    意志 - 青紫
+    魔力 - 赤紫
+    魅力 - オレンジ
+    
+    This is a mod that colors the skills and primary abilities tracked by the Skill Tracker according to the corresponding primary abilities. The colors are as follows:
+    Strength - Red
+    Endurance - Brown
+    Dexterity - Green
+    Perception - Light Blue
+    Learning - Blue
+    Will - Blue-Purple
+    Magic - Red-Purple
+    Charisma - Orange
+    Translation by ChatGPT
+    
+    这是一个根据对应的主能力为技能和主能力跟踪器中跟踪的技能着色的Mod。颜色如下：
+    力量 - 红色
+    耐力 - 棕色
+    敏捷 - 绿色
+    感知 - 浅蓝色
+    学习 - 蓝色
+    意志 - 蓝紫色
+    魔力 - 红紫色
+    魅力 - 橙色
+    翻译由ChatGPT提供
+    
+    SourceCode: https://github.com/yuu1111/SkillTrackerColoring
+  </description>
+</Meta>
