@@ -10,7 +10,7 @@ namespace SkillTrackerColoring
     {
         // const
         public const string pluginGuid = "com.github.yuu1111.skilltrackercoloring";
-        public const string pluginName = "Test Mod";
+        public const string pluginName = "SkillTrackerColoring Mod";
         public const string pluginVersion = "1.0.0";
 
         internal static new ManualLogSource Logger;
