@@ -21,7 +21,7 @@ namespace SkillTrackerColoring
             string[] willText = { "" };
             string[] magicText = { "" };
             string[] charismaText = { "" };
-            
+
             string lang = EClass.core.config.lang;
 
             if (lang == "JP")
@@ -67,7 +67,7 @@ namespace SkillTrackerColoring
                 magicText = new[] { "魔力", "魔力控制", "魔力極限", "詠唱", "魔道具" };
                 charismaText = new[] { "魅力", "共存", "演奏", "交渉", "投資" };
             }
-            
+
             string[] lines = objText.text.Split('\n');
             string coloredText = "";
 
@@ -121,7 +121,7 @@ namespace SkillTrackerColoring
                 if (!matched)
                 {
                     coloredText += line;
-                }   
+                }
 
                 // 最後の行でない場合のみ改行を追加
                 if (i < lines.Length - 1)
