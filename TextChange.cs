@@ -68,13 +68,13 @@ namespace SkillTrackerColoring
             } else if (lang == "ZHTW")
             {
                 strengthText = new string[] { "力量", "舉重", "挖掘", "挖洞", "木工", "鍛造", "雙手武器", "格鬥", "長劍", "斧", "鐮" };
-                endurancehText = new string[] { "體質", "游泳", "伐木", "馴獸", "農業", "自愈", "雕刻", "重裝備", "盾", "杖", "長槍", "鈍器" };
+                endurancehText = new string[] { "體質", "游泳", "伐木", "馴獸", "農業", "自然治癒", "雕刻", "重裝備", "盾", "杖", "長槍", "鈍器" };
                 dexterityText = new string[] { "靈巧", "開鎖", "偷竊", "解除陷阱", "寶石加工", "裁縫", "製造", "投擲", "輕裝備", "二刀流", "弓", "短劍" };
                 perceptionText = new string[] { "感知", "隱蔽", "探索", "戰術", "射擊", "心眼", "閃避", "看穿", "槍械", "弩" };
                 learningText = new string[] { "學習", "採集", "讀書", "鑒定", "解剖學", "背誦", "煉金", "烹飪", "戰略" };
                 willText = new string[] { "意志", "騎乘", "旅行", "釣魚", "冥想", "信仰" };
                 magicText = new string[] { "魔力", "魔力控制", "魔力極限", "詠唱", "魔道具" };
-                charismaText = new string[] { "魅力", "共存", "演奏", "交渉", "投資" };
+                charismaText = new string[] { "魅力", "共存", "演奏", "交涉", "投資" };
             }
 
 

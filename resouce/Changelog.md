@@ -1,3 +1,10 @@
+# 1.0.2
+
+  - ZHTWの最新版に対応
+    - Thankyou @KissDiamond
+
+
+
 # 1.0.1
 
   - ZHTWに対応
