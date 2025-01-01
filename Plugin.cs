@@ -5,20 +5,22 @@ using BepInEx.Logging;
 
 namespace SkillTrackerColoring
 {
-    [BepInPlugin(pluginGuid, pluginName, pluginVersion)]
+    [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
     public class Plugin : BaseUnityPlugin
     {
         // const
-        public const string pluginGuid = "com.github.yuu1111.skilltrackercoloring";
-        public const string pluginName = "SkillTrackerColoring Mod";
-        public const string pluginVersion = "1.0.2";
+        private const string PluginGuid = "com.github.yuu1111.skilltrackercoloring";
+        private const string PluginName = "SkillTrackerColoring";
+        private const string PluginVersion = "1.0.3";
 
-        internal static new ManualLogSource Logger;
+        internal new static ManualLogSource Logger;
 
         public void Awake()
         {
             Logger = base.Logger;
-            new Harmony(pluginGuid).PatchAll();
+            Logger.LogInfo(PluginName + " v" + PluginVersion + " is loaded!");
+            
+            new Harmony(PluginGuid).PatchAll();
         }
     }
 }

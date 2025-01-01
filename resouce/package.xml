@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Meta>
-  <title>SkillTrackerColoring Mod</title>
+  <title>SkillTrackerColoring</title>
   <id>yuu_skilltrackercoloring</id>
   <author>yuu_111</author>
   <builtin>false</builtin>
   <loadPriority>100</loadPriority>
-  <version>1.0.2</version>
+  <version>0.23.71</version>
   <description>
     スキルトラッカーにトラックされている技能および主能力を、それぞれ対応する主能力に応じて色付けするModです
     色は以下のようにしています
