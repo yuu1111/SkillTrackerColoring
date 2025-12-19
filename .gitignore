@@ -2,8 +2,9 @@
 [Bb]in/
 [Oo]bj/
 
-# Visual Studio
+# IDE
 .vs/
+.idea/
 *.user
 *.suo
 
