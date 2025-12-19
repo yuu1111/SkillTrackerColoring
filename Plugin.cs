@@ -11,7 +11,7 @@ namespace SkillTrackerColoring
         // const
         private const string PluginGuid = "com.github.yuu1111.skilltrackercoloring";
         private const string PluginName = "SkillTrackerColoring";
-        private const string PluginVersion = "1.0.3";
+        private const string PluginVersion = "1.0.4";
 
         internal new static ManualLogSource Logger;
 
@@ -19,7 +19,7 @@ namespace SkillTrackerColoring
         {
             Logger = base.Logger;
             Logger.LogInfo(PluginName + " v" + PluginVersion + " is loaded!");
-            
+
             new Harmony(PluginGuid).PatchAll();
         }
     }
