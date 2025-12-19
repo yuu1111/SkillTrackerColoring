@@ -5,10 +5,17 @@ using UnityEngine.UI;
 
 namespace SkillTrackerColoring
 {
+    /// <summary>
+    /// WidgetTracker.Refreshメソッドへのパッチ
+    /// スキル名を主属性に応じた色でハイライトする
+    /// </summary>
     [HarmonyPatch(typeof(WidgetTracker))]
     [HarmonyPatch("Refresh")]
     internal class TextChange
     {
+        /// <summary>
+        /// 主属性エイリアスと表示色の対応表
+        /// </summary>
         private static readonly Dictionary<string, Color> AttributeColors = new Dictionary<string, Color>
         {
             { "STR", new Color(0.8f, 0.0f, 0.0f) },      // 筋力 (赤)
@@ -21,9 +28,21 @@ namespace SkillTrackerColoring
             { "CHA", new Color(1.0f, 0.5f, 0.0f) },      // 魅力 (オレンジ)
         };
 
+        /// <summary>
+        /// スキル名から色へのキャッシュ
+        /// </summary>
         private static Dictionary<string, Color> _elementNameToColor;
+
+        /// <summary>
+        /// キャッシュ構築済みフラグ
+        /// </summary>
         private static bool _cacheBuilt = false;
 
+        /// <summary>
+        /// WidgetTracker.Refresh実行後に呼び出されるパッチ
+        /// テキストの各行をスキルの主属性に応じた色で装飾する
+        /// </summary>
+        /// <param name="__instance">パッチ対象のWidgetTrackerインスタンス</param>
         static void Postfix(WidgetTracker __instance)
         {
             try
@@ -64,6 +83,10 @@ namespace SkillTrackerColoring
             }
         }
 
+        /// <summary>
+        /// ゲームのSourceElementデータからスキル名と色の対応キャッシュを構築する
+        /// aliasParentフィールドを使用して各スキルの親属性を判定する
+        /// </summary>
         private static void BuildElementCache()
         {
             if (_cacheBuilt) return;
@@ -109,6 +132,11 @@ namespace SkillTrackerColoring
             }
         }
 
+        /// <summary>
+        /// 指定された行に含まれるスキル名から対応する色を取得する
+        /// </summary>
+        /// <param name="line">検索対象の行</param>
+        /// <returns>対応する色、見つからない場合はnull</returns>
         private static Color? GetColorForLine(string line)
         {
             if (_elementNameToColor == null) return null;
@@ -124,6 +152,12 @@ namespace SkillTrackerColoring
             return null;
         }
 
+        /// <summary>
+        /// 行にRich Textの色タグを適用する
+        /// </summary>
+        /// <param name="line">対象の行</param>
+        /// <param name="color">適用する色</param>
+        /// <returns>色タグで装飾された行</returns>
         private static string ColorizeLine(string line, Color color)
         {
             string colorHex = ColorUtility.ToHtmlStringRGB(color);
