@@ -7,38 +7,35 @@
   <loadPriority>100</loadPriority>
   <version>0.23.248</version>
   <description>
-    スキルトラッカーにトラックされている技能および主能力を、それぞれ対応する主能力に応じて色付けするModです
-    色は以下のようにしています
-    筋力 - 赤
-    耐久 - 茶色
-    器用 - 緑
-    感覚 - 水色
-    学習 - 青
-    意志 - 青紫
-    魔力 - 赤紫
-    魅力 - オレンジ
+    スキルトラッカーにトラックされている技能および主能力を、それぞれ対応する主能力に応じて色付けするModです。
+    色はBepInExのConfigファイルでカスタマイズ可能です。
+    ゲームのアップデートでスキル名が変更されても自動的に追従します。
 
-    This is a mod that colors the skills and primary abilities tracked by the Skill Tracker according to the corresponding primary abilities. The colors are as follows:
-    Strength - Red
-    Endurance - Brown
-    Dexterity - Green
-    Perception - Light Blue
-    Learning - Blue
-    Will - Blue-Purple
-    Magic - Red-Purple
-    Charisma - Orange
-    Translation by ChatGPT
+    デフォルトの色:
+    筋力 - 赤 / 耐久 - 茶色 / 器用 - 緑 / 感覚 - 水色
+    学習 - 青 / 意志 - 青紫 / 魔力 - 赤紫 / 魅力 - オレンジ
 
-    这是一个根据对应的主能力为技能和主能力跟踪器中跟踪的技能着色的Mod。颜色如下：
-    力量 - 红色
-    耐力 - 棕色
-    敏捷 - 绿色
-    感知 - 浅蓝色
-    学习 - 蓝色
-    意志 - 蓝紫色
-    魔力 - 红紫色
-    魅力 - 橙色
-    翻译由ChatGPT提供
+    ---
+
+    This mod colors skills and primary abilities in the Skill Tracker according to their corresponding primary attributes.
+    Colors can be customized via the BepInEx config file.
+    Automatically adapts to skill name changes from game updates.
+
+    Default colors:
+    STR - Red / END - Brown / DEX - Green / PER - Light Blue
+    LER - Blue / WIL - Blue-Purple / MAG - Red-Purple / CHA - Orange
+
+    ---
+
+    此Mod根据对应的主能力为技能跟踪器中的技能和主能力着色。
+    颜色可通过BepInEx配置文件自定义。
+    自动适应游戏更新带来的技能名称变更。
+
+    默认颜色:
+    力量 - 红色 / 耐力 - 棕色 / 敏捷 - 绿色 / 感知 - 浅蓝色
+    学习 - 蓝色 / 意志 - 蓝紫色 / 魔力 - 红紫色 / 魅力 - 橙色
+
+    ---
 
     SourceCode: https://github.com/yuu1111/SkillTrackerColoring
   </description>
