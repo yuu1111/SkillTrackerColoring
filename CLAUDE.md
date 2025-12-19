@@ -23,25 +23,28 @@ msbuild SkillTrackerColoring.sln /p:Configuration=Debug
 
 ## アーキテクチャ
 
-- **Plugin.cs**: BepInExプラグインエントリポイント。Harmonyパッチを初期化
-- **TextChange.cs**: `WidgetTracker.Refresh()` へのPostfixパッチ。スキル名テキストを主属性に応じた色でラップ
+- **Plugin.cs**: BepInExプラグインエントリポイント。Harmonyパッチの初期化とConfig設定を管理
+- **TextChange.cs**: `SkillTrackerColorPatch` クラス。`WidgetTracker.Refresh()` へのPostfixパッチでスキル名テキストを主属性に応じた色でラップ
 
-### 多言語対応
+### スキル属性の取得
 
-`TextChange.cs` 内で4言語 (JP, EN, CN, ZHTW) のスキル名配列を定義。`EClass.core.config.lang` でゲームの言語設定を取得し、対応する配列を使用。
+`EClass.sources.elements.rows` から `SourceElement.Row` を走査し、`aliasParent` フィールドで各スキルの親属性を判定。ゲーム更新でスキル名が変更されても自動追従。
 
-### 属性と色の対応
+### 色のカスタマイズ
 
-| 属性 | 色 |
-|------|------|
-| 筋力 (Strength) | 赤 |
-| 耐久 (Endurance) | 明るい茶 |
-| 器用 (Dexterity) | 緑 |
-| 感覚 (Perception) | 水色 |
-| 学習 (Learning) | 青 |
-| 意志 (Will) | 青紫 |
-| 魔力 (Magic) | 赤紫 |
-| 魅力 (Charisma) | オレンジ |
+BepInEx Config (`BepInEx/config/com.github.yuu1111.skilltrackercoloring.cfg`) で各属性の色を変更可能。
+
+デフォルト色:
+| 属性 | Config Key | デフォルト |
+|------|------------|-----------|
+| 筋力 | STR_Strength | #CC0000 |
+| 耐久 | END_Endurance | #CC9933 |
+| 器用 | DEX_Dexterity | #009933 |
+| 感覚 | PER_Perception | #0099CC |
+| 学習 | LER_Learning | #6666CC |
+| 意志 | WIL_Will | #9933CC |
+| 魔力 | MAG_Magic | #CC0099 |
+| 魅力 | CHA_Charisma | #FF8000 |
 
 ## バージョン管理
 
