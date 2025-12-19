@@ -1,7 +1,6 @@
 using System.Collections.Generic;
+using System.Text;
 using HarmonyLib;
-using UnityEngine;
-using UnityEngine.UI;
 
 namespace SkillTrackerColoring
 {
@@ -11,32 +10,35 @@ namespace SkillTrackerColoring
     /// </summary>
     [HarmonyPatch(typeof(WidgetTracker))]
     [HarmonyPatch("Refresh")]
-    internal class TextChange
+    internal class SkillTrackerColorPatch
     {
         /// <summary>
-        /// 主属性エイリアスと表示色の対応表
+        /// スキル名からHex色文字列へのキャッシュ
         /// </summary>
-        private static readonly Dictionary<string, Color> AttributeColors = new Dictionary<string, Color>
-        {
-            { "STR", new Color(0.8f, 0.0f, 0.0f) },      // 筋力 (赤)
-            { "END", new Color(0.8f, 0.6f, 0.2f) },      // 耐久 (明るい茶)
-            { "DEX", new Color(0.0f, 0.6f, 0.2f) },      // 器用 (緑)
-            { "PER", new Color(0.0f, 0.6f, 0.8f) },      // 感覚 (水色)
-            { "LER", new Color(0.4f, 0.4f, 0.8f) },      // 学習 (青)
-            { "WIL", new Color(0.6f, 0.2f, 0.8f) },      // 意志 (青紫)
-            { "MAG", new Color(0.8f, 0.0f, 0.6f) },      // 魔力 (赤紫)
-            { "CHA", new Color(1.0f, 0.5f, 0.0f) },      // 魅力 (オレンジ)
-        };
-
-        /// <summary>
-        /// スキル名から色へのキャッシュ
-        /// </summary>
-        private static Dictionary<string, Color> _elementNameToColor;
+        private static Dictionary<string, string> _elementNameToColorHex;
 
         /// <summary>
         /// キャッシュ構築済みフラグ
         /// </summary>
-        private static bool _cacheBuilt = false;
+        private static bool _cacheBuilt;
+
+        /// <summary>
+        /// 設定から属性エイリアスとHex色文字列の対応を取得する
+        /// </summary>
+        private static Dictionary<string, string> GetAttributeColorHex()
+        {
+            return new Dictionary<string, string>
+            {
+                { "STR", Plugin.GetColorHex(Plugin.ColorConfig.StrColor) },
+                { "END", Plugin.GetColorHex(Plugin.ColorConfig.EndColor) },
+                { "DEX", Plugin.GetColorHex(Plugin.ColorConfig.DexColor) },
+                { "PER", Plugin.GetColorHex(Plugin.ColorConfig.PerColor) },
+                { "LER", Plugin.GetColorHex(Plugin.ColorConfig.LerColor) },
+                { "WIL", Plugin.GetColorHex(Plugin.ColorConfig.WilColor) },
+                { "MAG", Plugin.GetColorHex(Plugin.ColorConfig.MagColor) },
+                { "CHA", Plugin.GetColorHex(Plugin.ColorConfig.ChaColor) },
+            };
+        }
 
         /// <summary>
         /// WidgetTracker.Refresh実行後に呼び出されるパッチ
@@ -49,37 +51,34 @@ namespace SkillTrackerColoring
             {
                 BuildElementCache();
 
-                Text objtext = __instance.text;
-                if (objtext == null || string.IsNullOrEmpty(objtext.text)) return;
+                var text = __instance.text;
+                if (text == null || string.IsNullOrEmpty(text.text)) return;
 
-                string[] lines = objtext.text.Split('\n');
-                string coloredText = "";
+                var lines = text.text.Split('\n');
+                var sb = new StringBuilder();
 
                 for (int i = 0; i < lines.Length; i++)
                 {
-                    string line = lines[i];
-                    Color? lineColor = GetColorForLine(line);
+                    if (i > 0) sb.Append('\n');
 
-                    if (lineColor.HasValue)
+                    var line = lines[i];
+                    var colorHex = GetColorHexForLine(line);
+
+                    if (colorHex != null)
                     {
-                        coloredText += ColorizeLine(line, lineColor.Value);
+                        sb.Append("<color=#").Append(colorHex).Append('>').Append(line).Append("</color>");
                     }
                     else
                     {
-                        coloredText += line;
-                    }
-
-                    if (i < lines.Length - 1)
-                    {
-                        coloredText += "\n";
+                        sb.Append(line);
                     }
                 }
 
-                objtext.text = coloredText;
+                text.text = sb.ToString();
             }
             catch (System.Exception ex)
             {
-                Plugin.Logger.LogError("Error in TextChange.Postfix: " + ex);
+                Plugin.Logger.LogError("Error in SkillTrackerColorPatch.Postfix: " + ex);
             }
         }
 
@@ -99,29 +98,30 @@ namespace SkillTrackerColoring
                     return;
                 }
 
-                _elementNameToColor = new Dictionary<string, Color>();
+                var attributeColorHex = GetAttributeColorHex();
+                _elementNameToColorHex = new Dictionary<string, string>();
 
                 foreach (var row in EClass.sources.elements.rows)
                 {
                     if (row == null) continue;
 
-                    string elementName = row.GetName();
+                    var elementName = row.GetName();
                     if (string.IsNullOrEmpty(elementName)) continue;
 
-                    string alias = row.alias;
-                    string aliasParent = row.aliasParent;
+                    var alias = row.alias;
+                    var aliasParent = row.aliasParent;
 
                     // 主属性自体の場合
-                    if (!string.IsNullOrEmpty(alias) && AttributeColors.TryGetValue(alias, out Color color))
+                    if (!string.IsNullOrEmpty(alias) && attributeColorHex.TryGetValue(alias, out var colorHex))
                     {
-                        _elementNameToColor[elementName] = color;
+                        _elementNameToColorHex[elementName] = colorHex;
                         continue;
                     }
 
                     // スキルの場合、親属性を確認
-                    if (!string.IsNullOrEmpty(aliasParent) && AttributeColors.TryGetValue(aliasParent, out color))
+                    if (!string.IsNullOrEmpty(aliasParent) && attributeColorHex.TryGetValue(aliasParent, out colorHex))
                     {
-                        _elementNameToColor[elementName] = color;
+                        _elementNameToColorHex[elementName] = colorHex;
                     }
                 }
                 _cacheBuilt = true;
@@ -133,15 +133,15 @@ namespace SkillTrackerColoring
         }
 
         /// <summary>
-        /// 指定された行に含まれるスキル名から対応する色を取得する
+        /// 指定された行に含まれるスキル名から対応するHex色文字列を取得する
         /// </summary>
         /// <param name="line">検索対象の行</param>
-        /// <returns>対応する色、見つからない場合はnull</returns>
-        private static Color? GetColorForLine(string line)
+        /// <returns>対応するHex色文字列、見つからない場合はnull</returns>
+        private static string GetColorHexForLine(string line)
         {
-            if (_elementNameToColor == null) return null;
+            if (_elementNameToColorHex == null) return null;
 
-            foreach (var kvp in _elementNameToColor)
+            foreach (var kvp in _elementNameToColorHex)
             {
                 if (line.Contains(kvp.Key))
                 {
@@ -150,18 +150,6 @@ namespace SkillTrackerColoring
             }
 
             return null;
-        }
-
-        /// <summary>
-        /// 行にRich Textの色タグを適用する
-        /// </summary>
-        /// <param name="line">対象の行</param>
-        /// <param name="color">適用する色</param>
-        /// <returns>色タグで装飾された行</returns>
-        private static string ColorizeLine(string line, Color color)
-        {
-            string colorHex = ColorUtility.ToHtmlStringRGB(color);
-            return $"<color=#{colorHex}>{line}</color>";
         }
     }
 }
