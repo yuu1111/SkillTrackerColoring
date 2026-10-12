@@ -6,16 +6,19 @@ Elin (Steam roguelike game) 用のBepInExモッド。スキルトラッカーウ
 
 ```bash
 # Visual Studio または MSBuild でビルド
-msbuild SkillTrackerColoring.sln /p:Configuration=Debug
+dotnet build SkillTrackerColoring.csproj -c Release
+dotnet run --project tests/SkillTrackerColoring.Tests.csproj -c Release
 
-# 出力先: bin\Debug\SkillTrackerColoring.dll
+# 出力先: bin/Release/SkillTrackerColoring.dll
 ```
 
 # 依存ライブラリ
 
 `lib/` フォルダにゲーム本体およびBepInExのDLLが必要:
 - Elinゲームディレクトリから `Assembly-CSharp.dll`, `Elin.dll` 等をコピー
-- BepInEx 5.x の `BepInEx.Core.dll`, `0Harmony.dll` 等
+- インストール済みBepInEx 6.x の `BepInEx.Core.dll`, `0Harmony.dll` 等
+- 現在の検証対象はElin Stable 23.355。BepInExは自動更新せず、インストール済みのDLLと一致させる
+- ゲーム・BepInExの参照DLLはビルド出力へコピーしない
 
 # アーキテクチャ
 
@@ -24,7 +27,11 @@ msbuild SkillTrackerColoring.sln /p:Configuration=Debug
 
 ## スキル属性の取得
 
-`EClass.sources.elements.rows` から `SourceElement.Row` を走査し、`aliasParent` フィールドで各スキルの親属性を判定。ゲーム更新でスキル名が変更されても自動追従。
+`EClass.player.trackedElements` の各IDから現在の `Element` を取得し、`source.alias` と `source.aliasParent` で主属性を判定。表示名は `Element.Name` を使用する。
+
+`TrackerTextFormatter.cs` はスキル名の完全一致で名前だけを装飾する。ウィジェットごとの弱参照キャッシュに元テキストと装飾済みテキストを保持し、ゲームがテキストを更新しないRefreshでもタグを重ねない。Config変更時は再装飾する。
+
+`tests/` の依存パッケージ不要な .NET 8 コンソールテストは、同じフォーマッタの再装飾・名前一致・数値維持・色入力を検証する。Unity上の実行テストは含まない。
 
 ## 色のカスタマイズ
 

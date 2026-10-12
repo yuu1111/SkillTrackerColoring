@@ -39,6 +39,17 @@ BepInEx/config/com.github.yuu1111.skilltrackercoloring.cfg
 
 色は `#RRGGBB` 形式で指定します。
 
+## 開発・検証
+
+Elin Stable 23.355のインストール済みゲームDLLとBepInEx 6.xを参照してReleaseビルドを検証しています。BepInExの自動更新やゲームへの配置は行いません。無効な色設定は属性ごとのデフォルト色を使います。
+
+```sh
+dotnet build SkillTrackerColoring.csproj -c Release
+dotnet run --project tests/SkillTrackerColoring.Tests.csproj -c Release
+```
+
+テストは.NET 8でフォーマッタを検証します。ゲーム内のHarmony適用・描画確認は別途必要です。
+
 ## 変更履歴
 
 [Changelog.md](resouce/Changelog.md) を参照

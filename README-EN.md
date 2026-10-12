@@ -39,6 +39,17 @@ BepInEx/config/com.github.yuu1111.skilltrackercoloring.cfg
 
 Colors are specified in `#RRGGBB` format.
 
+## Development and verification
+
+Release builds are verified against the installed Elin Stable 23.355 assemblies and BepInEx 6.x. BepInEx is not automatically upgraded, and build outputs are not deployed to the game. Invalid color settings fall back to the attribute default.
+
+```sh
+dotnet build SkillTrackerColoring.csproj -c Release
+dotnet run --project tests/SkillTrackerColoring.Tests.csproj -c Release
+```
+
+The dependency-free .NET 8 tests exercise the formatter. In-game Harmony patching and rendering still require manual verification.
+
 ## Changelog
 
 See [Changelog.md](resouce/Changelog.md)

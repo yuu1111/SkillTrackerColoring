@@ -2,7 +2,6 @@ using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
-using UnityEngine;
 
 namespace SkillTrackerColoring
 {
@@ -20,6 +19,7 @@ namespace SkillTrackerColoring
         /// プラグイン用のログ出力インスタンス
         /// </summary>
         internal new static ManualLogSource Logger;
+        internal static int ColorRevision;
 
         /// <summary>
         /// 属性色の設定
@@ -44,6 +44,7 @@ namespace SkillTrackerColoring
             Logger = base.Logger;
 
             InitializeConfig();
+            Config.SettingChanged += (_, __) => ColorRevision++;
 
             Logger.LogInfo(PluginName + " v" + PluginVersion + " is loaded!");
 
@@ -87,12 +88,7 @@ namespace SkillTrackerColoring
         /// </summary>
         internal static string GetColorHex(ConfigEntry<string> config)
         {
-            var hex = config.Value;
-            if (hex.StartsWith("#"))
-            {
-                hex = hex.Substring(1);
-            }
-            return hex;
+            return TrackerTextFormatter.NormalizeHex(config.Value, ((string)config.DefaultValue).TrimStart('#'));
         }
     }
 }
