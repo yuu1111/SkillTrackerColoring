@@ -1,6 +1,6 @@
 # SkillTrackerColoring
 
-[Elin](https://store.steampowered.com/app/2135150/Elin/) 用のBepInExモッド
+[Elin](https://store.steampowered.com/app/2135150/Elin/) 用のBepInEx Mod
 
 スキルトラッカーウィジェットのスキル名を、対応する主能力に応じて色分け表示します。
 
